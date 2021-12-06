@@ -11,12 +11,12 @@ const Login = () => {
 
   const { userLoginLoading, loginError } = authObj;
 
-  const username = useFormInput("");
+  const email = useFormInput("");
   const password = useFormInput("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(userLoginAsync(username.value, password.value));
+    dispatch(userLoginAsync(email.value, password.value));
   };
 
   return (
@@ -24,8 +24,8 @@ const Login = () => {
       <LoginContainer>
         <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3">
-            <Form.Label>Username</Form.Label>
-            <Form.Control {...username}></Form.Control>
+            <Form.Label>Email</Form.Label>
+            <Form.Control {...email}></Form.Control>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>

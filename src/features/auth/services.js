@@ -22,8 +22,8 @@ export const verifyTokenService = async () => {
   }
 };
 
-export const userLoginService = async (username, password) => {
-  const body = { username, password };
+export const userLoginService = async (email, password) => {
+  const body = { email, password };
   try {
     return await axios.post(`${API_URL}/api/v1/auth/login`, body);
   } catch (err) {

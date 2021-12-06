@@ -30,10 +30,10 @@ const authSlice = createSlice({
       state.loginStatus = "rejected";
     },
     verifyUserSuccess: (state, action) => {
-      const { token, expiredAt, username } = action.payload;
+      const { token, expiredAt, email } = action.payload;
       state.token = token;
       state.expiredAt = expiredAt;
-      state.user = username;
+      state.user = email;
       state.isAuthenticated = true;
       state.verifyStatus = "end";
       state.loginStatus = "fulfilled";
