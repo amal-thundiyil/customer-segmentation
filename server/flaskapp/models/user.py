@@ -1,32 +1,42 @@
-from flask import current_app
-from flaskapp import db, login_manager
-from flask_login import UserMixin
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import datetime
+from flaskapp import db
+from flask import current_app, request
+import jwt
+import secrets
+from flaskapp.errors.unauthorized import UnauthorizedError
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
-class User(db.Model, UserMixin):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), unique=True, nullable=False)
     email = db.Column(db.String(), unique=True, nullable=False)
     password = db.Column(db.String(), nullable=False)
 
-    def get_reset_token(self, expires_in=1800):
-        s = Serializer(current_app.config["SECRET_KEY"], expires_in)
-        return s.dumps({"user_id": self.id}).decode("utf-8")
+    def generate_tokens(self):
+        expires_in = datetime.datetime.utcnow().timestamp() + int(
+            current_app.config["ACCESS_TOKEN_LIFE"] * 60
+        )
+        access_token = jwt.encode(
+            payload={"user_id": self.id, "exp": expires_in},
+            key=current_app.config["SECRET_KEY"],
+            algorithm="HS256",
+        ).decode("utf-8")
+        xsrf_token = secrets.token_hex(16)
+        return [access_token, xsrf_token, expires_in]
 
-    @staticmethod
-    def verify_reset_token(token):
-        s = Serializer(current_app.config["SECRET_KEY"])
-        try:
-            user_id = s.load(token)["user_id"]
-        except:
-            return None
-        return User.query.get(user_id)
+    def generate_refresh_token(self):
+        refresh_token = jwt.encode(
+            payload={
+                "user_id": self.id,
+                "exp": datetime.datetime.utcnow()
+                + datetime.timedelta(
+                    days=int(current_app.config["REFRESH_TOKEN_LIFE"])
+                ),
+            },
+            key=current_app.config["SECRET_KEY"],
+            algorithm="HS256",
+        )
+        return refresh_token
 
     def __repr__(self):
         return f"User({self.username}, {self.email}"

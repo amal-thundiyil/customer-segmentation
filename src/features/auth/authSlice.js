@@ -5,7 +5,7 @@ const initialState = {
   expiredAt: null,
   user: null,
   verifyStatus: "start" || "end",
-  isAuthenticated: true,
+  isAuthenticated: false,
   loginStatus: "rejected" || "fullfilled" || "loading",
   error: null,
 };

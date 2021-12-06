@@ -33,14 +33,14 @@ function App() {
       <NavBar />
       <Routes>
         <Route exact path="/" element={<Home />} />
+        <Route path="/login" element={<PublicRoute auth={isAuthenticated} />}>
+          <Route path="/login" element={<Login />} />
+        </Route>
         <Route
           path="/dashboard"
           element={<PrivateRoute auth={isAuthenticated} />}
         >
           <Route path="/dashboard:access_token" element={<Dashboard />} />
-        </Route>
-        <Route path="/login" element={<PublicRoute auth={isAuthenticated} />}>
-          <Route path="/login" element={<Login />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>

@@ -15,6 +15,7 @@
 /build
 
 # misc
+.vscode
 .DS_Store
 .env.local
 .env.development.local
@@ -33,7 +34,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-.vscode
 venv/
 bin/
 build/

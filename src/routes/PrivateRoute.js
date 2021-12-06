@@ -1,7 +1,6 @@
-import { Navigate, Outlet, useLocation } from "react-router";
+import { Navigate, Outlet } from "react-router";
 const PrivateRoute = ({ auth }) => {
-  const location = useLocation();
-  return auth ? <Outlet /> : <Navigate to={location} />;
+  return auth ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
