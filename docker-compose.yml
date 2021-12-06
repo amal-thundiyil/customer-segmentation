@@ -1,21 +1,26 @@
 version: "1"
 services:
-  # frontend:
-  #   container_name: frontend
-  #   build: ./frontend
-  #   ports:
-  #     - 80:80
-  #     - 443:443
-  #   volumes:
-  #     - /home/ubuntu/ssl:/etc/nginx/certs
+  frontend:
+    container_name: frontend
+    build:
+      - context: ./src
+      - dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /home/ubuntu/ssl:/etc/nginx/certs
 
-  server:
-    container_name: flask_server
-    build: ./server
+  backend:
+    restart: always
+    container_name: backend
+    build:
+      - context: ./server
+      - dockerfile: Dockerfile
     expose:
       - 5000
     volumns:
-      - ./backend:/usr/src/app
+      - ./server:/usr/src/app
     environment:
       - FLASK_ENV=development
       - FLASK_APP=app.py

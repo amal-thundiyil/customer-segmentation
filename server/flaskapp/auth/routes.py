@@ -1,3 +1,4 @@
+import http
 from os import access
 from time import CLOCK_REALTIME
 from flask import Blueprint, jsonify, request, current_app, make_response
@@ -60,8 +61,8 @@ def login():
     refresh_tokens[refresh_token] = xsrf_token
     data = {"user_id": user.id, "token": access_token, "expires_in": expires_in}
     res = make_response(data)
-    res.set_cookie("XSRF-TOKEN", xsrf_token)
-    res.set_cookie("refresh_token", refresh_token)
+    res.set_cookie("XSRF-TOKEN", xsrf_token, httponly=True)
+    res.set_cookie("refresh_token", refresh_token, httponly=True)
     return res, HTTPStatus.OK
 
 
@@ -87,7 +88,7 @@ def verify():
     refresh_tokens[refresh_token] = xsrf_token
     data = {"user_id": user.id, "token": access_token, "expires_in": expires_in}
     res = make_response(data)
-    res.set_cookie("XSRF-TOKEN", xsrf_token)
+    res.set_cookie("XSRF-TOKEN", xsrf_token, httponly=True)
     return res, HTTPStatus.OK
 
 
