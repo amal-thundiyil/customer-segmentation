@@ -3,8 +3,8 @@ services:
   frontend:
     container_name: frontend
     build:
-      - context: ./src
-      - dockerfile: Dockerfile
+      context: ./src
+      dockerfile: Dockerfile
     ports:
       - 80:80
       - 443:443
@@ -15,11 +15,11 @@ services:
     restart: always
     container_name: backend
     build:
-      - context: ./server
-      - dockerfile: Dockerfile
+      context: ./server
+      dockerfile: Dockerfile
     expose:
       - 5000
-    volumns:
+    volumes:
       - ./server:/usr/src/app
     environment:
       - FLASK_ENV=development
