@@ -1,3 +1,7 @@
+# Customer Segmentation App
+
+A working backend service to manage user sessions and authentication as well as classify users using average return rate, products ordered and total spending. Technologies used: React (indicative frontend), Flask, SQLite, Docker, Pandas, Numpy, scikit-learn.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
